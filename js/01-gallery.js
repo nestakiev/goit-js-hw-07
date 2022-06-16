@@ -34,18 +34,25 @@ function onImageClickModalOpen (event) {
 }
 
 function onModalOpen (src) {
-    const instance = basicLightbox.create(`<img src="${src}" width="800" height="600">`)
+    const instance = basicLightbox.create(`<img src="${src}" width="800" height="600">`, {
+        
+        onShow: () => {
+            document.addEventListener("keydown", onModalClose);
+        },
+        
+        onClose: () => {{
+            document.removeEventListener("keydown", onModalClose);
+        }}
+    } )
+
     instance.show()
-    document.addEventListener("keydown", onModalClose);     
         
     function onModalClose (event) {
             if (event.code === "Escape") {
                 instance.close()
-                document.removeEventListener("keydown", onModalClose);
             }
         }   
 }
-
 
 
 
